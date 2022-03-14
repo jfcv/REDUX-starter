@@ -1,5 +1,7 @@
-import store from "./store/store";
-import { bugAdded, bugRemoved, bugResolved } from "./store/actions";
+import configureStore from "./store/configureStore";
+import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
+
+const store = configureStore();
 
 console.log(store);
 
