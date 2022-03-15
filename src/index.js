@@ -1,5 +1,6 @@
 import configureStore from "./store/configureStore";
 import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
+import { projectAdded } from "./store/projects";
 
 const store = configureStore();
 
@@ -9,12 +10,7 @@ const unsubscribe = store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
-/**
- * calls the reducer gives it the state and the action
- * and gets the updated state
- *
- * updated = reducer(state, action)
- */
+store.dispatch(projectAdded({ name: "Project 1" }));
 
 store.dispatch(bugAdded({ description: "Bug 1" }));
 store.dispatch(bugAdded({ description: "Bug 2" }));
@@ -24,8 +20,7 @@ store.dispatch(bugResolved({ id: 1 }));
 
 /**
  * unsubscribe()
- * allows one to unsubscribe from a store
- * so it doesn't notify changes anymore
+ * allows one to unsubscribe from a store so it doesn't notify changes anymore
  */
 
 unsubscribe();
