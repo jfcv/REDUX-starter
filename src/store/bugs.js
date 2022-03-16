@@ -30,4 +30,11 @@ const slice = createSlice({
 
 export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
 
+/**
+ * selector function
+ * takes the state and returns the computed state
+ */
+export const getUnresolvedBugs = (state) =>
+  state.entities.bugs.filter((bug) => !bug.resolved);
+
 export default slice.reducer;
