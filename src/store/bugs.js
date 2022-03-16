@@ -17,19 +17,26 @@ const slice = createSlice({
       });
     },
 
+    bugResolved: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs[index].resolved = true;
+    },
+
     bugRemoved: (bugs, action) => {
       const index = bugs.findIndex((bug) => bug.id === action.payload.id);
       bugs.splice(index, 1);
     },
 
-    bugResolved: (bugs, action) => {
-      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
-      bugs[index].resolved = true;
+    bugAssignedToUser: (bugs, action) => {
+      const { bugId, userId } = action.payload;
+      const index = bugs.findIndex((bug) => bug.id === bugId);
+      bugs[index].userId = userId;
     },
   },
 });
 
-export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
+export const { bugAdded, bugResolved, bugRemoved, bugAssignedToUser } =
+  slice.actions;
 
 /**
  * Memoization
@@ -39,5 +46,11 @@ export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
   (bugs) => bugs.filter((bug) => !bug.resolved)
 );
+
+export const getBugsByUser = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
+  );
 
 export default slice.reducer;
