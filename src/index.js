@@ -15,8 +15,15 @@ const unsubscribe = store.subscribe(() => {
   console.log("Store changed!", store.getState());
 });
 
-store.dispatch(userAdded({ name: "User 1" }));
+store.dispatch((dispatch, getState) => {
+  // call an API
+  // promise resolved -> dispatch()
+  dispatch({ type: "bugsReceived", bugs: [1, 2, 3] });
+  console.log(getState());
+  // promise rejected -> dispatch()
+});
 
+// store.dispatch(userAdded({ name: "User 1" }));
 // store.dispatch(userAdded({ name: "User 2" }));
 
 // store.dispatch(projectAdded({ name: "Project 1" }));
