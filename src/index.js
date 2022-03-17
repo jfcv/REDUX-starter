@@ -24,3 +24,12 @@ store.dispatch({
   type: "error",
   payload: { message: "An error ocurred." },
 });
+
+store.dispatch({
+  type: "apiCallBegan",
+  payload: {
+    url: "/bugs",
+    onSuccess: "bugsReceived",
+    onError: "apiRequestFailed",
+  },
+});
