@@ -7,6 +7,8 @@ import {
   getBugsByUser,
   loadBugs,
   addBug,
+  resolveBug,
+  assignBugToUser,
 } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import { userAdded } from "./store/users";
@@ -30,7 +32,8 @@ const unsubscribe = store.subscribe(() => {
 /**
  * UI Layer
  */
-// store.dispatch(loadBugs());
-// setTimeout(() => store.dispatch(loadBugs()), 2000);
+store.dispatch(loadBugs());
+setTimeout(() => store.dispatch(resolveBug(2)), 2000);
+setTimeout(() => store.dispatch(assignBugToUser(2, 4)), 4000);
 
-store.dispatch(addBug({ description: "save data to the server" }));
+//store.dispatch(addBug({ description: "save data to the server" }));
