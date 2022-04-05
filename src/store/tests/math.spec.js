@@ -1,4 +1,4 @@
-import { isEven } from "./math";
+import { isEven } from "../../math";
 
 describe("isEven", () => {
   it("Should return true if given an even number", () => {
