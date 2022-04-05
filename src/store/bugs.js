@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import * as actions from "./api";
+import axios from "axios";
 
 /**
  * ACTIONS: reducers()
@@ -97,6 +98,19 @@ export const loadBugs = () => (dispatch, getState) => {
     })
   );
 };
+
+/**
+ * addBug action creator implemented using axios
+ */
+// export const addBug = (bug) => async (dispatch) => {
+//   const response = await axios.request({
+//     baseURL: "http://localhost:9001/api",
+//     url,
+//     method: "post",
+//     data: bug,
+//   });
+//   dispatch(bugAdded(response.data));
+// };
 
 export const addBug = (bug) =>
   actions.apiCallBegan({
