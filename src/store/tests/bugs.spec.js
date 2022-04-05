@@ -34,21 +34,53 @@ describe("bugsSlice", () => {
  */
 
 describe("bugsSlice", () => {
-  it("Should handle the addBug action", async () => {
+  let fakeAxios;
+  let store;
+
+  beforeEach(() => {
+    fakeAxios = new MockAdapter(axios);
+    store = configureStore();
+  });
+
+  /**
+   * helpers
+   */
+  const bugsSlice = () => store.getState().entities.bugs;
+
+  it("Should add the bug to the store if it's saved to the server", async () => {
     /**
-     * objects
+     * Arrange
      */
     const bug = { description: "a" };
     const savedBug = { ...bug, id: 1 };
-
-    /**
-     * fake API setted up to make tests frequently
-     */
-    const fakeAxios = new MockAdapter(axios);
     fakeAxios.onPost("/bugs").reply(200, savedBug);
 
-    const store = configureStore();
+    /**
+     * Act
+     */
     await store.dispatch(addBug(bug));
-    expect(store.getState().entities.bugs.list).toContainEqual(savedBug);
+
+    /**
+     * Assert
+     */
+    expect(bugsSlice().list).toContainEqual(savedBug);
+  });
+
+  it("Should not add the bug to the store if it's not saved to the server", async () => {
+    /**
+     * Arrange
+     */
+    const bug = { description: "a" };
+    fakeAxios.onPost("/bugs").reply(500);
+
+    /**
+     * Act
+     */
+    await store.dispatch(addBug(bug));
+
+    /**
+     * Assert
+     */
+    expect(bugsSlice().list).toHaveLength(0);
   });
 });
