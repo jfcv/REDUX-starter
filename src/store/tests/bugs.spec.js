@@ -1,6 +1,8 @@
 import { addBug, bugAdded } from "../bugs";
 import { apiCallBegan } from "../api";
 import configureStore from "../configureStore";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 
 /**
  * Solitary Tests
@@ -33,13 +35,20 @@ describe("bugsSlice", () => {
 
 describe("bugsSlice", () => {
   it("Should handle the addBug action", async () => {
-    const store = configureStore();
-    const bug = { description: "a" };
     /**
-     * it says it doesn't await statement but if
-     * delete it, it just throws
+     * objects
      */
+    const bug = { description: "a" };
+    const savedBug = { ...bug, id: 1 };
+
+    /**
+     * fake API setted up to make tests frequently
+     */
+    const fakeAxios = new MockAdapter(axios);
+    fakeAxios.onPost("/bugs").reply(200, savedBug);
+
+    const store = configureStore();
     await store.dispatch(addBug(bug));
-    expect(store.getState().entities.bugs.list).toHaveLength(1);
+    expect(store.getState().entities.bugs.list).toContainEqual(savedBug);
   });
 });
