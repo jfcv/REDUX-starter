@@ -89,7 +89,7 @@ export const loadBugs = () => (dispatch, getState) => {
       "it's been less than 2 minutes since the last time you made a request so the information is being loaded from the cache."
     );
 
-  dispatch(
+  return dispatch(
     actions.apiCallBegan({
       url,
       onStart: bugsRequested.type,
